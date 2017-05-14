@@ -5,10 +5,8 @@ import camt.cbsd.entity.Student;
 import camt.cbsd.services.StudentServiceImpl;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.support.NullValue;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.is;
@@ -50,7 +48,6 @@ public class StudentServiceImplTest {
 
     @Test
     public void getCourseCountTestAsAdmin(){
-
         assertThat(studentService.getUsername("admin").getStudentId(), is(student1.getStudentId()));
         assertThat(studentService.getUsername("admin").getName(), is(student1.getName()));
         assertThat(studentService.getUsername("admin").getSurname(), is(student1.getSurname()));
@@ -59,13 +56,10 @@ public class StudentServiceImplTest {
         assertThat(studentService.getUsername("admin").isFeature(), is(student1.isFeature()));
         assertThat(studentService.getUsername("admin").getPenAmount(), is(student1.getPenAmount()));
         assertThat(studentService.getUsername("admin").getDescription(), is(student1.getDescription()));
-
-
     }
 
     @Test
     public void getCourseCountTestAsUser(){
-
         assertThat(studentService.getUsername("user").getStudentId(), is(student2.getStudentId()));
         assertThat(studentService.getUsername("user").getName(), is(student2.getName()));
         assertThat(studentService.getUsername("user").getSurname(), is(student2.getSurname()));
@@ -74,12 +68,10 @@ public class StudentServiceImplTest {
         assertThat(studentService.getUsername("user").isFeature(), is(student2.isFeature()));
         assertThat(studentService.getUsername("user").getPenAmount(), is(student2.getPenAmount()));
         assertThat(studentService.getUsername("user").getDescription(), is(student2.getDescription()));
-
     }
 
     @Test
     public void getCourseCountTestAsDisable(){
-
         assertThat(studentService.getUsername("disabled").getStudentId(), is(student3.getStudentId()));
         assertThat(studentService.getUsername("disabled").getName(), is(student3.getName()));
         assertThat(studentService.getUsername("disabled").getSurname(), is(student3.getSurname()));
@@ -88,29 +80,26 @@ public class StudentServiceImplTest {
         assertThat(studentService.getUsername("disabled").isFeature(), is(student3.isFeature()));
         assertThat(studentService.getUsername("disabled").getPenAmount(), is(student3.getPenAmount()));
         assertThat(studentService.getUsername("disabled").getDescription(), is(student3.getDescription()));
-
     }
 
     @Test
     public void getCourseCountTestAsAbcd(){
-
         assertThat(studentService.getUsername("abcd"),is(nullValue()));
-
     }
 
     @Test
     public void queryStudentTest(){
+        assertThat(studentService.queryStudent("").get(0).getStudentId(),is(student1.getStudentId()));
+        assertThat(studentService.queryStudent("").get(1).getStudentId(),is(student2.getStudentId()));
+        assertThat(studentService.queryStudent("").get(2).getStudentId(),is(student3.getStudentId()));
 
-        studentService = new StudentServiceImpl();
-        studentService.setStudentDao(studentDao);
+        assertThat(studentService.queryStudent("ha").get(0).getStudentId(),is(student1.getStudentId()));
 
-        assertThat(studentService.queryStudent("").get(0).getUser().getUsername(),is("admin"));
-        assertThat(studentService.queryStudent("").get(1).getUser().getUsername(),is("user"));
-        assertThat(studentService.queryStudent("").get(2).getUser().getUsername(),is("disabled"));
+        assertThat(studentService.queryStudent("Prayut").get(0).getStudentId(),is(student2.getStudentId()));
 
-        assertThat(studentService.queryStudent("su").get(0).getUser().getUsername(),is("admin"));
+        assertThat(studentService.queryStudent("mi").get(0).getStudentId(),is(student1.getStudentId()));
+        assertThat(studentService.queryStudent("mi").get(1).getStudentId(),is(student2.getStudentId()));
 
-        assertThat(studentService.queryStudent("Prayut").get(0).getUser().getUsername(),is("user"));
-
+        assertThat(studentService.queryStudent("JU").get(0).getStudentId(),is(student3.getStudentId()));
     }
 }

@@ -21,20 +21,4 @@ public class Lab05ApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Autowired
-	public void setCourseDao(CourseDao courseDao) {
-		this.courseDao = courseDao;
-	}
-	CourseDao courseDao;
-	CourseServiceImpl courseService;
-
-	@Test
-	public void getCourseCountTest(){
-		courseService = new CourseServiceImpl();
-		courseService.setCourseDao(courseDao);
-		assertThat(courseService.getCourseCount(),is(equalTo(3)));
-
-	}
-
-
 }
